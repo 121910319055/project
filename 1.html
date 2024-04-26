@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dynamic Form</title>
+<style>
+  .form-field {
+    margin-bottom: 10px;
+  }
+</style>
+</head>
+<body>
+  <form id="dynamic-form">
+    <div class="form-field">
+      <label for="name">Name:</label>
+      <input type="text" name="name">
+      <label for="age">Age:</label>
+      <input type="number" name="age">
+      <button type="button" class="remove-field" style="display:none;">Remove</button>
+    </div>
+    <button type="button" id="add-field">Add Field</button>
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const form = document.getElementById('dynamic-form');
+      const addFieldButton = document.getElementById('add-field');
+
+      addFieldButton.addEventListener('click', function() {
+        const fieldWrapper = document.createElement('div');
+        fieldWrapper.classList.add('form-field');
+
+        const nameLabel = document.createElement('label');
+        nameLabel.textContent = 'Name:';
+        const nameInput = document.createElement('input');
+        nameInput.type = 'text';
+        nameInput.name = 'name';
+
+        const ageLabel = document.createElement('label');
+        ageLabel.textContent = 'Age:';
+        const ageInput = document.createElement('input');
+        ageInput.type = 'number';
+        ageInput.name = 'age';
+
+        const removeButton = document.createElement('button');
+        removeButton.type = 'button';
+        removeButton.classList.add('remove-field');
+        removeButton.textContent = 'Remove';
+        removeButton.addEventListener('click', function() {
+          fieldWrapper.remove();
+        });
+
+        fieldWrapper.appendChild(nameLabel);
+        fieldWrapper.appendChild(nameInput);
+        fieldWrapper.appendChild(ageLabel);
+        fieldWrapper.appendChild(ageInput);
+        fieldWrapper.appendChild(removeButton);
+
+        form.insertBefore(fieldWrapper, addFieldButton);
+        removeButton.style.display = 'inline-block';
+      });
+
+      form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const formData = new FormData(form);
+        const formEntries = Array.from(formData.entries());
+        console.log(formEntries);
+      });
+    });
+  </script>
+</body>
+</html>
